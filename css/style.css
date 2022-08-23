@@ -11,7 +11,11 @@ body {
 
 .settings {
   width: 25%;
+  display: flex;
   border-right: 1px solid black;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .right {
@@ -30,6 +34,9 @@ body {
   background-color: white;
 }
 
-.color-blue {
+.color {
   background-color: black;
+}
+.color-red {
+  background-color: red;
 }

@@ -1,6 +1,7 @@
-let userInput = 0;
 const board = document.querySelector(".drawing");
-const button = document.querySelector("button");
+const button = document.querySelector(".board-change");
+const rainbowButton = document.querySelector(".rainbow");
+let confirm = document.getElementById("confirmationLabel");
 
 let createBoard = (length) => {
   board.style.gridTemplateColumns = `repeat(${length}, ${1300 / length}px)`;
@@ -13,24 +14,61 @@ let createBoard = (length) => {
     }
   }
 };
-let draw = (pixels) => {
+let draw = (pixels, color = "color") => {
   pixels.forEach((pixel) => {
     pixel.addEventListener("mouseover", () => {
-      pixel.setAttribute("class", "pixels color-blue");
+      pixel.setAttribute("class", `pixels ${color}`);
     });
   });
 };
 
-createBoard(16);
+let drawRainbow = (pixels) => {
+  pixels.forEach((pixel) => {
+    pixel.addEventListener("mouseover", () => {
+      pixel.style.backgroundColor = random_color();
+    });
+  });
+};
+
+let drawShades = (pixels) => {
+  let opacity = 0;
+  pixels.forEach((pixel) => {
+    pixel.addEventListener("mouseover", () => {
+      pixel.style.backgroundColor = `rgb(0,0,0,${(opacity += 0.1)})`;
+    });
+  });
+};
+
+let random_color = () => {
+  let x = Math.floor(Math.random() * 256);
+  let y = Math.floor(Math.random() * 256);
+  let z = Math.floor(Math.random() * 256);
+  let bgColor = "rgb(" + x + "," + y + "," + z + ")";
+
+  return bgColor;
+};
+
+createBoard(50);
 let pixels = document.querySelectorAll(".pixels");
 draw(pixels);
 
 button.addEventListener("click", () => {
-  userInput = window.prompt("how many squares");
-  for (let i = 0; i < pixels.length; i++) {
-    pixels[i].remove();
+  let inputField = document.getElementById("userInput").value;
+
+  if (inputField <= 100) {
+    for (let i = 0; i < pixels.length; i++) {
+      pixels[i].remove();
+    }
+    createBoard(inputField);
+    pixels = document.querySelectorAll(".pixels");
+    draw(pixels, "color");
+    confirm.textContent = `Changed the board to ${inputField} by ${inputField} `;
+  } else {
+    confirm.textContent = "Please choose a number between 1 and 100";
   }
-  createBoard(userInput);
-  pixels = document.querySelectorAll(".pixels");
-  draw(pixels);
+});
+
+rainbowButton.addEventListener("click", () => {
+  drawRainbow(pixels);
+  confirm.textContent = `Changed the color`;
 });
