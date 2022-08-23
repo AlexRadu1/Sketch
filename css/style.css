@@ -23,7 +23,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url(/123.png);
+  background-image: url(../123.png);
 }
 .drawing {
   display: grid;
